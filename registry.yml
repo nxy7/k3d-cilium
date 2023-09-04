@@ -1,0 +1,4 @@
+mirrors:
+  "noxy.ddns.net:5000":
+    endpoint:
+      - "http://noxy.ddns.net:5000"
