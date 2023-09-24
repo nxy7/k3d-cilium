@@ -3,8 +3,9 @@ kind: Simple # internally, we also have a Cluster config, which is not yet avail
 metadata:
   name: streampaicluster # name that you want to give to your cluster (will still be prefixed with `k3d-`)
 servers: 1 # same as `--servers 1`
-image: rancher/k3s:v1.28.1-rc2-k3s1 # same as `--image rancher/k3s:v1.20.4-k3s1`
+image: rancher/k3s:v1.27.5-rc3-k3s1 # same as `--image rancher/k3s:v1.20.4-k3s1`
 network: cluster-network # same as `--network my-custom-net`
+# subnet: "172.28.0.0/16"
 registries:
   config: |
     mirrors:
@@ -21,22 +22,10 @@ volumes: # repeatable flags are represented as YAML lists
     nodeFilters:
       - server:*
       - agent:*
-  # - volume: /sys/fs/cgroup:/sys/fs/cgroup:shared # same as `--volume '/my/host/path:/path/in/node@server:0;agent:*'`
-  #   nodeFilters:
-  #     - server:*
-  #     - agent:*
 ports:
   - port: 8080:80 # same as `--port '8080:80@loadbalancer'`
     nodeFilters:
       - loadbalancer
-# hostAliases: # /etc/hosts style entries to be injected into /etc/hosts in the node containers and in the NodeHosts section in CoreDNS
-#   - ip: 1.2.3.4
-#     hostnames: 
-#       - my.host.local
-#       - that.other.local
-#   - ip: 1.1.1.1
-#     hostnames:
-#       - cloud.flare.dns
 options:
   k3d: # k3d runtime settings
     wait: true # wait for cluster to be usable before returning; same as `--wait` (default: true)
@@ -54,6 +43,10 @@ options:
           - server:*
           - agent:*
       - arg: "--disable=traefik"
+        nodeFilters:
+          - server:*
+          - agent:*
+      - arg: "--disable=servicelb"
         nodeFilters:
           - server:*
           - agent:*
