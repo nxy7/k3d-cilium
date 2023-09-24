@@ -25,7 +25,7 @@ export def create [] {
   dexit
 
   kubectl apply -f gateway.yaml
-  ./k8s_utils/annotate-gateways.nu --ip 172.17.0.2 --ipPool 172.17.0.2/24
+  ./k8s_utils/annotate-gateways.nu --ip 172.19.0.2 --ipPool 172.19.0.2/24
 }
 
 
